@@ -1,0 +1,162 @@
+================================================================================
+LLM + RAG ARCHITECTURE DIAGRAM
+Multilingual Legal Conversational Bot
+================================================================================
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         USER QUERY                                          │
+│                    (Hindi or English)                                        │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                    │
+                    ┌───────────────▼───────────────┐
+                    │   Query Processing            │
+                    │   • Language Detection        │
+                    │   • Query Enhancement         │
+                    └───────────────┬───────────────┘
+                                    │
+                    ┌───────────────▼───────────────┐
+                    │   EMBEDDING MODEL             │
+                    │   (Multilingual MPNet)        │
+                    │   • Query → Embedding         │
+                    │   • Dimension: 768            │
+                    └───────────────┬───────────────┘
+                                    │
+                    ┌───────────────▼───────────────┐
+                    │   FAISS INDEX                 │
+                    │   • Vector Similarity Search   │
+                    │   • Top-K Retrieval           │
+                    │   • Index Type: Flat/IVF/HNSW │
+                    └───────────────┬───────────────┘
+                                    │
+                    ┌───────────────▼───────────────┐
+                    │   RETRIEVAL PIPELINE           │
+                    │   • Retrieve Top-K Documents   │
+                    │   • Re-ranking (Optional)      │
+                    │   • Context Assembly           │
+                    └───────────────┬───────────────┘
+                                    │
+                    ┌───────────────▼───────────────┐
+                    │   PROMPT ENGINEERING            │
+                    │   • Context + Query → Prompt   │
+                    │   • Legal QA Template          │
+                    │   • Citation Instructions      │
+                    └───────────────┬───────────────┘
+                                    │
+                    ┌───────────────▼───────────────┐
+                    │   LLM (LoRA Fine-Tuned)        │
+                    │   • IndicLegal-LLaMA-7B        │
+                    │   • Context-Aware Generation    │
+                    │   • Legal Domain Adaptation     │
+                    └───────────────┬───────────────┘
+                                    │
+                    ┌───────────────▼───────────────┐
+                    │   POST-PROCESSING              │
+                    │   • Citation Extraction         │
+                    │   • Hallucination Detection    │
+                    │   • Safety Checks              │
+                    └───────────────┬───────────────┘
+                                    │
+                    ┌───────────────▼───────────────┐
+                    │   FINAL ANSWER                  │
+                    │   • Legal Answer                │
+                    │   • Citations                   │
+                    │   • Safety Disclaimers          │
+                    └────────────────────────────────┘
+
+================================================================================
+DATA FLOW
+================================================================================
+
+Legal Documents (PDF/TXT)
+    │
+    ├─► OCR Pipeline (Hindi Legal Docs)
+    │   ├─► PDF → Images
+    │   ├─► Tesseract OCR (Hindi + English)
+    │   └─► Text Extraction
+    │
+    ├─► Text Processing
+    │   ├─► Cleaning & Noise Removal
+    │   ├─► Sentence Segmentation
+    │   └─► Clause Extraction
+    │
+    ├─► Embedding Generation
+    │   └─► Document → Embedding Vector (768-dim)
+    │
+    └─► FAISS Index Building
+        ├─► Vector Index Creation
+        ├─► Metadata Storage
+        └─► Index Persistence
+
+================================================================================
+RETRIEVAL PROCESS
+================================================================================
+
+1. Query Embedding
+   User Query → Embedding Model → Query Vector (768-dim)
+
+2. Similarity Search
+   Query Vector + FAISS Index → Top-K Similar Documents
+
+3. Re-ranking (Optional)
+   Top-K Documents → Cross-Encoder → Re-ranked Documents
+
+4. Context Assembly
+   Re-ranked Documents → Formatted Context String
+
+================================================================================
+GENERATION PROCESS
+================================================================================
+
+1. Prompt Construction
+   Context + Query → Legal QA Prompt Template
+
+2. LLM Generation
+   Prompt → LoRA Model → Generated Text
+
+3. Citation Extraction
+   Generated Text → Citation Extractor → IPC/CrPC/Constitution Sections
+
+4. Validation
+   Generated Text + Context → Hallucination Check → Validated Answer
+
+5. Safety Layer
+   Validated Answer → Safety Check → Final Answer with Disclaimers
+
+================================================================================
+COMPONENT INTERACTIONS
+================================================================================
+
+Embedding Model ←→ FAISS Index
+    │                    │
+    │                    └─► Document Store
+    │
+    └─► Query Embedding
+
+FAISS Index ←→ Retrieval Pipeline
+    │                    │
+    │                    └─► Re-ranker
+    │
+    └─► Top-K Documents
+
+Retrieval Pipeline ←→ Prompt Engine
+    │                        │
+    │                        └─► Prompt Template
+    │
+    └─► Context
+
+Prompt Engine ←→ LLM
+    │                │
+    │                └─► LoRA Weights
+    │
+    └─► Prompt
+
+LLM ←→ Post-Processing
+    │            │
+    │            ├─► Citation Extractor
+    │            ├─► Hallucination Detector
+    │            └─► Safety Layer
+    │
+    └─► Generated Text
+
+================================================================================
+

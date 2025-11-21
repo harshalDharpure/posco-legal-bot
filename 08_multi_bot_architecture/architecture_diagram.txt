@@ -1,0 +1,141 @@
+================================================================================
+MULTI-BOT ARCHITECTURE DIAGRAM
+4 Coordinated LLM Modules
+================================================================================
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         USER QUERY                                          │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                    │
+                    ┌───────────────▼───────────────┐
+                    │   Multi-Bot Coordinator       │
+                    └───────────────┬───────────────┘
+                                    │
+        ┌───────────────────────────┼───────────────────────────┐
+        │                           │                           │
+┌───────▼────────┐      ┌───────────▼──────────┐    ┌──────────▼──────────┐
+│ Translation    │      │   Legal-Q-Bot         │    │   Citation-Bot      │
+│ Bot            │      │                       │    │                     │
+├────────────────┤      ├───────────────────────┤    ├─────────────────────┤
+│ • Hindi ↔ EN   │      │ • Answer Generation   │    │ • Citation Extract  │
+│ • Query Trans  │      │ • Context Integration │    │ • IPC/CrPC/Const   │
+│ • Answer Trans │      │ • Legal Reasoning     │    │ • Citation Validate │
+└───────┬────────┘      └───────────┬──────────┘    └──────────┬──────────┘
+        │                            │                           │
+        └────────────────────────────┼───────────────────────────┘
+                                     │
+                    ┌────────────────▼────────────────┐
+                    │   Validator-Bot                 │
+                    ├─────────────────────────────────┤
+                    │ • Hallucination Detection       │
+                    │ • Safety Checks                 │
+                    │ • Citation Validation           │
+                    │ • Answer Filtering             │
+                    └────────────────┬────────────────┘
+                                     │
+                    ┌────────────────▼────────────────┐
+                    │   FINAL ANSWER                   │
+                    │   + Citations                    │
+                    │   + Validation Results          │
+                    └──────────────────────────────────┘
+
+================================================================================
+BOT INTERACTION FLOW
+================================================================================
+
+1. User Query Input
+   │
+   ├─► Translation-Bot (if language mismatch)
+   │   └─► Translate query to target language
+   │
+   ├─► Legal-Q-Bot
+   │   ├─► Receive query + RAG context
+   │   ├─► Generate legal answer
+   │   └─► Output: Initial answer
+   │
+   ├─► Citation-Bot
+   │   ├─► Extract citations from answer
+   │   ├─► Validate citations against context
+   │   ├─► Add missing citations
+   │   └─► Output: Answer with citations
+   │
+   ├─► Validator-Bot
+   │   ├─► Check for hallucinations
+   │   ├─► Safety validation
+   │   ├─► Citation accuracy check
+   │   ├─► Filter unsafe content
+   │   └─► Output: Validated answer
+   │
+   ├─► Translation-Bot (if needed)
+   │   └─► Translate answer to target language
+   │
+   └─► Final Response
+       ├─► Answer
+       ├─► Citations
+       ├─► Validation results
+       └─► Safety disclaimers
+
+================================================================================
+INTERNAL PROMPT TEMPLATES
+================================================================================
+
+Legal-Q-Bot Prompt:
+───────────────────
+Context: {rag_context}
+
+Question: {user_query}
+
+Answer: [Generate legal answer based on context]
+
+Citation-Bot Prompt:
+───────────────────
+Answer: {generated_answer}
+Context: {rag_context}
+
+Extract and validate all legal citations (IPC, CrPC, Constitution).
+
+Validator-Bot Prompt:
+─────────────────────
+Answer: {answer}
+Context: {rag_context}
+Question: {query}
+
+Verify:
+1. Factual consistency with context
+2. Citation accuracy
+3. Safety (no harmful advice)
+4. Hallucination detection
+
+Translation-Bot Prompt:
+───────────────────────
+Text: {text}
+Source Language: {source_lang}
+Target Language: {target_lang}
+
+Translate while preserving legal terminology and citations.
+
+================================================================================
+MODEL CONFIGURATIONS
+================================================================================
+
+Legal-Q-Bot:
+  • Model: LoRA fine-tuned IndicLegal-LLaMA-7B
+  • Temperature: 0.7
+  • Max Tokens: 512
+  • Task: Answer generation
+
+Citation-Bot:
+  • Model: Rule-based + Regex patterns
+  • Task: Citation extraction and validation
+
+Translation-Bot:
+  • Model: IndicTrans / mBART
+  • Task: Hindi ↔ English translation
+
+Validator-Bot:
+  • Model: RLHF-trained validator
+  • Temperature: 0.1 (deterministic)
+  • Task: Quality and safety validation
+
+================================================================================
+

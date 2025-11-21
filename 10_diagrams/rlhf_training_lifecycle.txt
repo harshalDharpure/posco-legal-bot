@@ -1,0 +1,182 @@
+================================================================================
+RLHF TRAINING LIFECYCLE DIAGRAM
+================================================================================
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                    PHASE 1: SUPERVISED FINE-TUNING (SFT)                    │
+│                    • Train on Legal QA Dataset                              │
+│                    • LoRA Fine-Tuning                                       │
+│                    • Output: Base Policy Model                               │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                    │
+                    ┌───────────────▼───────────────┐
+                    │   PHASE 2: REWARD MODEL       │
+                    │   TRAINING                    │
+                    │                               │
+                    │   Components:                │
+                    │   • Legal Factuality (40%)     │
+                    │   • Citation Accuracy (30%)   │
+                    │   • Language Fluency (20%)    │
+                    │   • Safety (10%)              │
+                    │                               │
+                    │   Training Data:             │
+                    │   • Human Preferences         │
+                    │   • Expert Annotations        │
+                    └───────────────┬───────────────┘
+                                    │
+        ┌───────────────────────────┼───────────────────────────┐
+        │                           │                           │
+┌───────▼────────┐      ┌───────────▼──────────┐    ┌──────────▼──────────┐
+│   PPO          │      │   DPO                │    │   Safety Layer      │
+│   TRAINING     │      │   TRAINING           │    │                     │
+├────────────────┤      ├──────────────────────┤    ├─────────────────────┤
+│ • Policy Model │      │ • Preference Pairs   │    │ • Harmful Content   │
+│ • Reward Model │      │ • Chosen vs Rejected  │    │   Detection         │
+│ • Value Model  │      │ • Direct Optimization│    │ • Disclaimer Check   │
+│ • PPO Loop     │      │ • No Reward Model     │    │ • Safety Filtering  │
+└───────┬────────┘      └──────────┬───────────┘    └──────────┬──────────┘
+        │                          │                           │
+        └──────────────────────────┼───────────────────────────┘
+                                   │
+                    ┌──────────────▼───────────────┐
+                    │   FINAL RLHF MODEL           │
+                    │   • Legal Correctness         │
+                    │   • Citation Accuracy         │
+                    │   • Safety Compliance         │
+                    │   • Multilingual Support      │
+                    └───────────────────────────────┘
+
+================================================================================
+PPO TRAINING LOOP
+================================================================================
+
+1. Sample Queries
+   └─► Generate Responses (Policy Model)
+       └─► Compute Rewards (Reward Model)
+           └─► Update Policy (PPO Algorithm)
+               └─► Repeat
+
+PPO Algorithm:
+──────────────
+• Collect trajectories: (query, response, reward)
+• Compute advantages: A = reward - value
+• Update policy: maximize (π_new/π_old) * A
+• Clip updates: min(ratio * A, clip(ratio) * A)
+• Update value function: minimize (V - reward)²
+
+Hyperparameters:
+• Learning Rate: 1e-5
+• Batch Size: 4
+• Mini Batch Size: 2
+• PPO Epochs: 4
+• Clip Range: 0.2
+• Gamma: 1.0
+• Lambda: 0.95
+
+================================================================================
+DPO TRAINING PROCESS
+================================================================================
+
+1. Preference Data Collection
+   • Human annotators rank responses
+   • Create (chosen, rejected) pairs
+
+2. DPO Objective
+   • Maximize: log(σ(β * (log π_θ(chosen) - log π_ref(chosen) 
+                        - log π_θ(rejected) + log π_ref(rejected))))
+   • β: Temperature parameter (0.1)
+
+3. Training
+   • No reward model needed
+   • Direct optimization on preferences
+   • Simpler than PPO
+
+Advantages:
+• Simpler training
+• No reward model needed
+• Direct preference optimization
+
+================================================================================
+REWARD MODEL ARCHITECTURE
+================================================================================
+
+Input: (Answer, Context, Question)
+    │
+    ├─► Encoder (IndicLegal-LLaMA)
+    │   └─► Embedding (768-dim)
+    │
+    ├─► Reward Heads
+    │   ├─► Legal Factuality Head
+    │   ├─► Citation Accuracy Head
+    │   ├─► Language Fluency Head
+    │   └─► Safety Head
+    │
+    └─► Weighted Combination
+        └─► Final Reward Score
+
+Reward Components:
+──────────────────
+1. Legal Factuality (40%)
+   • Consistency with context
+   • Factual correctness
+   • Legal accuracy
+
+2. Citation Accuracy (30%)
+   • Presence of citations
+   • Citation correctness
+   • Relevance to query
+
+3. Language Fluency (20%)
+   • Sentence structure
+   • Grammar
+   • Readability
+
+4. Safety (10%)
+   • Harmful content detection
+   • Disclaimer presence
+   • Risk assessment
+
+================================================================================
+TRAINING PIPELINE
+================================================================================
+
+Step 1: Collect Preferences
+  └─► Human annotators evaluate responses
+      └─► Create preference pairs
+
+Step 2: Train Reward Model
+  └─► Supervised learning on preferences
+      └─► Learn to score responses
+
+Step 3: PPO Training
+  └─► Policy model generates responses
+      └─► Reward model scores responses
+          └─► PPO updates policy
+
+Step 4: DPO Training (Alternative)
+  └─► Direct optimization on preferences
+      └─► No reward model needed
+
+Step 5: Safety Layer
+  └─► Filter harmful content
+      └─► Add disclaimers
+
+================================================================================
+EVALUATION METRICS
+================================================================================
+
+During RLHF Training:
+• Reward Score (from reward model)
+• Policy Loss (PPO)
+• Value Loss (PPO)
+• KL Divergence (policy vs reference)
+
+After Training:
+• Legal Accuracy
+• Citation Accuracy
+• Hallucination Rate
+• Safety Score
+• Human Evaluation
+
+================================================================================
+

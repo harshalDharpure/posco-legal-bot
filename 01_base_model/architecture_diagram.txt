@@ -1,0 +1,139 @@
+================================================================================
+BASE MODEL ARCHITECTURE DIAGRAM
+Multilingual Legal Conversational Bot
+================================================================================
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         BASE MODEL SELECTION                                 │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                    │
+                    ┌───────────────┼───────────────┐
+                    │               │               │
+            ┌───────▼──────┐ ┌──────▼──────┐ ┌─────▼──────┐
+            │ IndicLegal   │ │ LLaMA-3     │ │ IndicBERT  │
+            │ LLaMA-7B     │ │ 8B-Instruct │ │            │
+            │ (Recommended)│ │             │ │            │
+            └───────┬──────┘ └──────┬──────┘ └─────┬──────┘
+                    │               │               │
+                    └───────────────┼───────────────┘
+                                    │
+                    ┌───────────────▼───────────────┐
+                    │   MODEL ARCHITECTURE          │
+                    └───────────────┬───────────────┘
+                                    │
+        ┌───────────────────────────┼───────────────────────────┐
+        │                           │                           │
+┌───────▼────────┐      ┌───────────▼──────────┐    ┌──────────▼──────────┐
+│ Tokenization   │      │  Legal Vocabulary    │    │  Embedding Layer    │
+│ Strategy       │      │  Adaptation          │    │                     │
+├────────────────┤      ├──────────────────────┤    ├─────────────────────┤
+│ • Hindi        │      │ • IPC Sections      │    │ • 768/1024 dim      │
+│ • English      │      │ • CrPC Sections     │    │ • Multilingual      │
+│ • Legal tokens │      │ • Constitution      │    │ • Legal domain      │
+│ • Special      │      │ • Case law          │    │                     │
+│   markers      │      │ • Legal terms       │    │                     │
+└───────┬────────┘      └──────────┬───────────┘    └──────────┬──────────┘
+        │                          │                           │
+        └──────────────────────────┼───────────────────────────┘
+                                   │
+                    ┌──────────────▼──────────────┐
+                    │   TRANSFORMER LAYERS         │
+                    ├──────────────────────────────┤
+                    │ • 32-40 Layers              │
+                    │ • Multi-head Attention      │
+                    │ • Feed-forward Networks     │
+                    │ • Layer Normalization       │
+                    │ • Residual Connections      │
+                    └──────────────┬──────────────┘
+                                   │
+                    ┌──────────────▼──────────────┐
+                    │   OUTPUT LAYERS              │
+                    ├──────────────────────────────┤
+                    │ • Language Model Head        │
+                    │ • Legal Section Classifier   │
+                    │ • Citation Extractor         │
+                    └──────────────────────────────┘
+
+================================================================================
+TOKENIZATION FLOW
+================================================================================
+
+Input Text (Hindi + English Legal)
+    │
+    ├─► Pre-processing
+    │   ├─► Mark IPC sections: "IPC Section 302" → "<IPC> Section 302"
+    │   ├─► Mark CrPC sections: "CrPC Section 438" → "<CrPC> Section 438"
+    │   └─► Mark Constitution: "Article 21" → "<Constitution> Article 21"
+    │
+    ├─► Tokenization
+    │   ├─► SentencePiece (for IndicLegal-LLaMA)
+    │   ├─► BPE (for LLaMA-3)
+    │   └─► WordPiece (for IndicBERT)
+    │
+    ├─► Special Token Addition
+    │   ├─► <IPC>, <CrPC>, <Constitution>
+    │   ├─► <Section>, <Article>, <Case>
+    │   └─► <Citation>, <Act>, <Rule>
+    │
+    └─► Output: Token IDs + Attention Masks
+
+================================================================================
+LEGAL VOCABULARY STRUCTURE
+================================================================================
+
+Legal Vocabulary (50,000 tokens)
+    │
+    ├─► Base Model Vocabulary (~32,000)
+    │
+    ├─► Legal Terms (~5,000)
+    │   ├─► IPC Terms: murder, theft, robbery, etc.
+    │   ├─► CrPC Terms: bail, arrest, trial, etc.
+    │   ├─► Constitution Terms: fundamental rights, writs, etc.
+    │   └─► Hindi Legal Terms (Romanized)
+    │
+    ├─► IPC Sections (~1,000)
+    │   └─► Sections 1-511 with descriptions
+    │
+    ├─► CrPC Sections (~500)
+    │   └─► Sections 1-484 with descriptions
+    │
+    ├─► Constitution Articles (~400)
+    │   └─► Articles 1-395 with descriptions
+    │
+    ├─► Case Law Citations (~1,000)
+    │   └─► Landmark cases + citation patterns
+    │
+    └─► Special Tokens (~100)
+        └─► Legal domain markers
+
+================================================================================
+MODEL ARCHITECTURE BREAKDOWN
+================================================================================
+
+IndicLegal-LLaMA-7B Architecture:
+    • Layers: 32
+    • Hidden Size: 4096
+    • Attention Heads: 32
+    • Vocabulary: 32,000 (extended to 50,000)
+    • Max Sequence Length: 4096
+    • Parameters: ~7B
+
+Key Components:
+    1. Embedding Layer
+       - Token embeddings (50,000 vocab)
+       - Position embeddings (rotary positional encoding)
+       - Legal section type embeddings
+    
+    2. Transformer Blocks (32 layers)
+       - Multi-head self-attention (32 heads)
+       - Feed-forward network (FFN)
+       - Layer normalization
+       - Residual connections
+    
+    3. Output Head
+       - Language modeling head
+       - Legal section classification head
+       - Citation extraction head
+
+================================================================================
+

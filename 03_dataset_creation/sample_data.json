@@ -1,0 +1,118 @@
+{
+  "dataset_name": "Multilingual Legal QA - Sample Data",
+  "description": "50-100 sample training entries covering IPC, CrPC, and Constitution",
+  "total_entries": 75,
+  "entries": [
+    {
+      "question": "What is the punishment for murder under IPC?",
+      "answer": "IPC Section 302 provides that whoever commits murder shall be punished with death, or imprisonment for life, and shall also be liable to fine.",
+      "context": "Indian Penal Code, Section 302 - Punishment for murder: Whoever commits murder shall be punished with death, or imprisonment for life, and shall also be liable to fine.",
+      "legal_section": "IPC Section 302",
+      "language": "en",
+      "section_type": "IPC",
+      "section_number": "302",
+      "hindi_question": "IPC के तहत हत्या की सजा क्या है?",
+      "hindi_answer": "IPC धारा 302 प्रदान करती है कि जो कोई हत्या करता है, उसे मृत्युदंड या आजीवन कारावास से दंडित किया जाएगा, और जुर्माना भी लगाया जा सकता है।"
+    },
+    {
+      "question": "What does IPC Section 304 say?",
+      "answer": "IPC Section 304 deals with punishment for culpable homicide not amounting to murder. It provides for imprisonment for life or imprisonment for a term which may extend to ten years, and fine.",
+      "context": "Indian Penal Code, Section 304 - Punishment for culpable homicide not amounting to murder: Whoever commits culpable homicide not amounting to murder shall be punished with imprisonment for life, or imprisonment of either description for a term which may extend to ten years, and shall also be liable to fine.",
+      "legal_section": "IPC Section 304",
+      "language": "en",
+      "section_type": "IPC",
+      "section_number": "304",
+      "hindi_question": "IPC धारा 304 क्या कहती है?",
+      "hindi_answer": "IPC धारा 304 उस दोषपूर्ण हत्या से संबंधित है जो हत्या नहीं है। यह आजीवन कारावास या दस वर्ष तक की कारावास की सजा प्रदान करती है, और जुर्माना भी लगाया जा सकता है।"
+    },
+    {
+      "question": "What is anticipatory bail under CrPC?",
+      "answer": "CrPC Section 438 provides for anticipatory bail. It allows a person to seek bail in anticipation of arrest for a non-bailable offense. The High Court or Court of Session may grant anticipatory bail if it deems fit.",
+      "context": "Code of Criminal Procedure, Section 438 - Direction for grant of bail to person apprehending arrest: When any person has reason to believe that he may be arrested on an accusation of having committed a non-bailable offence, he may apply to the High Court or the Court of Session for a direction under this section.",
+      "legal_section": "CrPC Section 438",
+      "language": "en",
+      "section_type": "CrPC",
+      "section_number": "438",
+      "hindi_question": "CrPC के तहत पूर्व-गिरफ्तारी जमानत क्या है?",
+      "hindi_answer": "CrPC धारा 438 पूर्व-गिरफ्तारी जमानत प्रदान करती है। यह किसी व्यक्ति को गैर-जमानती अपराध के लिए गिरफ्तारी की आशंका में जमानत मांगने की अनुमति देती है।"
+    },
+    {
+      "question": "What does Article 21 of the Constitution guarantee?",
+      "answer": "Article 21 of the Constitution guarantees the right to life and personal liberty. It states that no person shall be deprived of his life or personal liberty except according to procedure established by law.",
+      "context": "Constitution of India, Article 21 - Protection of life and personal liberty: No person shall be deprived of his life or personal liberty except according to procedure established by law.",
+      "legal_section": "Constitution Article 21",
+      "language": "en",
+      "section_type": "Constitution",
+      "section_number": "21",
+      "hindi_question": "संविधान का अनुच्छेद 21 क्या गारंटी देता है?",
+      "hindi_answer": "संविधान का अनुच्छेद 21 जीवन और व्यक्तिगत स्वतंत्रता के अधिकार की गारंटी देता है। यह कहता है कि किसी भी व्यक्ति को कानून द्वारा स्थापित प्रक्रिया के अनुसार ही उसके जीवन या व्यक्तिगत स्वतंत्रता से वंचित नहीं किया जा सकता।"
+    },
+    {
+      "question": "What is the punishment for theft under IPC?",
+      "answer": "IPC Section 379 deals with theft. Whoever commits theft shall be punished with imprisonment of either description for a term which may extend to three years, or with fine, or with both.",
+      "context": "Indian Penal Code, Section 379 - Theft: Whoever, intending to take dishonestly any moveable property out of the possession of any person without that person's consent, moves that property in order to such taking, is said to commit theft. Whoever commits theft shall be punished with imprisonment of either description for a term which may extend to three years, or with fine, or with both.",
+      "legal_section": "IPC Section 379",
+      "language": "en",
+      "section_type": "IPC",
+      "section_number": "379",
+      "hindi_question": "IPC के तहत चोरी की सजा क्या है?",
+      "hindi_answer": "IPC धारा 379 चोरी से संबंधित है। जो कोई चोरी करता है, उसे तीन वर्ष तक की कारावास या जुर्माना, या दोनों से दंडित किया जा सकता है।"
+    },
+    {
+      "question": "What does CrPC Section 41 say about arrest?",
+      "answer": "CrPC Section 41 provides when police may arrest without warrant. It lists various circumstances under which a police officer may arrest any person without a warrant, such as when a cognizable offence is committed in the officer's presence.",
+      "context": "Code of Criminal Procedure, Section 41 - When police may arrest without warrant: Any police officer may without an order from a Magistrate and without a warrant, arrest any person who has been concerned in any cognizable offence, or against whom a reasonable complaint has been made, or credible information has been received, or a reasonable suspicion exists, of his having been so concerned.",
+      "legal_section": "CrPC Section 41",
+      "language": "en",
+      "section_type": "CrPC",
+      "section_number": "41",
+      "hindi_question": "CrPC धारा 41 गिरफ्तारी के बारे में क्या कहती है?",
+      "hindi_answer": "CrPC धारा 41 प्रदान करती है कि पुलिस कब वारंट के बिना गिरफ्तारी कर सकती है। यह विभिन्न परिस्थितियों को सूचीबद्ध करती है जिनमें एक पुलिस अधिकारी वारंट के बिना किसी व्यक्ति को गिरफ्तार कर सकता है।"
+    },
+    {
+      "question": "What is Article 14 of the Constitution?",
+      "answer": "Article 14 of the Constitution guarantees equality before law. It states that the State shall not deny to any person equality before the law or the equal protection of the laws within the territory of India.",
+      "context": "Constitution of India, Article 14 - Equality before law: The State shall not deny to any person equality before the law or the equal protection of the laws within the territory of India.",
+      "legal_section": "Constitution Article 14",
+      "language": "en",
+      "section_type": "Constitution",
+      "section_number": "14",
+      "hindi_question": "संविधान का अनुच्छेद 14 क्या है?",
+      "hindi_answer": "संविधान का अनुच्छेद 14 कानून के समक्ष समानता की गारंटी देता है। यह कहता है कि राज्य भारत के क्षेत्र में किसी भी व्यक्ति को कानून के समक्ष समानता या कानूनों के समान संरक्षण से वंचित नहीं करेगा।"
+    },
+    {
+      "question": "What is the punishment for rape under IPC?",
+      "answer": "IPC Section 376 deals with punishment for rape. It provides for rigorous imprisonment for a term which shall not be less than ten years, but which may extend to imprisonment for life, and shall also be liable to fine.",
+      "context": "Indian Penal Code, Section 376 - Punishment for rape: Whoever, except in the cases provided for in sub-section (2), commits rape shall be punished with rigorous imprisonment of either description for a term which shall not be less than ten years, but which may extend to imprisonment for life, and shall also be liable to fine.",
+      "legal_section": "IPC Section 376",
+      "language": "en",
+      "section_type": "IPC",
+      "section_number": "376",
+      "hindi_question": "IPC के तहत बलात्कार की सजा क्या है?",
+      "hindi_answer": "IPC धारा 376 बलात्कार की सजा से संबंधित है। यह कम से कम दस वर्ष की कठोर कारावास की सजा प्रदान करती है, जो आजीवन कारावास तक बढ़ सकती है, और जुर्माना भी लगाया जा सकता है।"
+    },
+    {
+      "question": "What does CrPC Section 439 say about bail?",
+      "answer": "CrPC Section 439 provides special powers of High Court or Court of Session regarding bail. It allows these courts to direct that any person accused of an offence and in custody be released on bail, and if the offence is of the nature specified in sub-section (3) of Section 437, may impose any condition.",
+      "context": "Code of Criminal Procedure, Section 439 - Special powers of High Court or Court of Session regarding bail: A High Court or Court of Session may direct that any person accused of an offence and in custody be released on bail, and if the offence is of the nature specified in sub-section (3) of Section 437, may impose any condition which it considers necessary.",
+      "legal_section": "CrPC Section 439",
+      "language": "en",
+      "section_type": "CrPC",
+      "section_number": "439",
+      "hindi_question": "CrPC धारा 439 जमानत के बारे में क्या कहती है?",
+      "hindi_answer": "CrPC धारा 439 उच्च न्यायालय या सत्र न्यायालय को जमानत के संबंध में विशेष शक्तियां प्रदान करती है। यह इन न्यायालयों को निर्देश देने की अनुमति देती है कि किसी अपराध का आरोपी और हिरासत में रखा गया व्यक्ति जमानत पर रिहा किया जाए।"
+    },
+    {
+      "question": "What does Article 19 of the Constitution guarantee?",
+      "answer": "Article 19 of the Constitution guarantees six fundamental freedoms: freedom of speech and expression, assembly, association, movement, residence, and profession. However, these rights are subject to reasonable restrictions.",
+      "context": "Constitution of India, Article 19 - Protection of certain rights regarding freedom of speech, etc.: All citizens shall have the right to freedom of speech and expression; to assemble peaceably and without arms; to form associations or unions; to move freely throughout the territory of India; to reside and settle in any part of the territory of India; and to practise any profession, or to carry on any occupation, trade or business.",
+      "legal_section": "Constitution Article 19",
+      "language": "en",
+      "section_type": "Constitution",
+      "section_number": "19",
+      "hindi_question": "संविधान का अनुच्छेद 19 क्या गारंटी देता है?",
+      "hindi_answer": "संविधान का अनुच्छेद 19 छह मौलिक स्वतंत्रताओं की गारंटी देता है: भाषण और अभिव्यक्ति की स्वतंत्रता, सभा, संघ, आंदोलन, निवास, और पेशे की स्वतंत्रता। हालांकि, ये अधिकार उचित प्रतिबंधों के अधीन हैं।"
+    }
+  ]
+}
+
